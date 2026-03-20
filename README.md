@@ -41,3 +41,9 @@ object Secrets {
 }
 
 ```
+
+## 🖼️ Exibição do projeto
+
+<p align="center">
+  <img src="doc/images/tmbdb.jpeg" alt="Exibição do projeto" width="320" />
+</p>
