@@ -21,7 +21,12 @@ App Kotlin Multiplatform (Android + iOS) para listagem de filmes, consumindo a A
 1. Faça login em **[https://www.themoviedb.org/login](https://www.themoviedb.org/login)**
 2. Clique no seu avatar (canto superior direito) → **Configurações**
 3. No menu lateral esquerdo, clique em **API**
-4. Na seção **Token de Leitura da API**, copie o token completo
+4. Na seção **Solicitar chave de API** em click here
+5. Na página com a descrição **Is the intended use of our API for personal use?** clique em **This is for my own personal use only**
+6. Vai abrir um popup fique no checkbox e clique em **Yes,this is for personal use**
+7. Preencha o formulário, clique no checkbox para dizer que aceita os termos de usos. Depois só clicar em **Subscribe**.
+8. Após isso, você vai para tela de **Subscription Details**, clique em **Access your API key details here.**
+5. Na seção **Token de Leitura da API**, copie o token completo
 
 > ⚠️ Use o **Token de Leitura da API**, e não a Chave da API.
 
