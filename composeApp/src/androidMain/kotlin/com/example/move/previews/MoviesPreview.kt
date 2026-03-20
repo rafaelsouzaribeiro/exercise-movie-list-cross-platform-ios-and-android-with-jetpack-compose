@@ -1,0 +1,33 @@
+package com.example.move.previews
+
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.move.domain.model.Move1
+import com.example.move.domain.model.MovieSection
+import com.example.move.ui.components.MoviePoster
+import com.example.move.ui.movies.MovieListViewModel
+import com.example.move.ui.movies.MoviesListScreen
+
+@Composable
+@Preview(showBackground = true)
+fun MovieListPreview() {
+    MoviePoster(
+        movie = Move1
+    )
+}
+
+@Composable
+@Preview(showBackground = true)
+fun MovieListScreenPreview() {
+    MoviesListScreen(
+        movieListState = MovieListViewModel.MoviesListStates.Success(
+            movieSections = listOf(
+                MovieSection(
+                    sectionType = MovieSection.SectionType.POPULAR,
+                    movies = List(10) {
+                        Move1
+                    }
+                )
+        )
+    ))
+}
