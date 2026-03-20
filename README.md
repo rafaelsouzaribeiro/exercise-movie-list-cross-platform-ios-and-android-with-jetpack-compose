@@ -1,5 +1,4 @@
-### We are under construction.
-
+# Estamos em construção 🚧falta ainda alguns detalhes.
 # Move 🎬
 
 App Kotlin Multiplatform (Android + iOS) para listagem de filmes, consumindo a API do [The Movie DB (TMDB)](https://www.themoviedb.org/).
