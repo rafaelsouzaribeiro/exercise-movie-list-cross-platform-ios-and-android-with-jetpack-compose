@@ -7,27 +7,37 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
+import com.example.move.di.kortClientModule
+import com.example.move.di.repositoryModule
+import com.example.move.di.viewModelModule
 import com.example.move.navigation.AppRoutes
 import com.example.move.ui.movies.MoveisListRoutes
+import org.koin.compose.KoinApplication
+import org.koin.dsl.koinConfiguration
+
 
 @Composable
 @Preview
 fun App() {
-    MaterialTheme {
-        val navController = rememberNavController()
+    KoinApplication(configuration = koinConfiguration {
+        modules(kortClientModule, repositoryModule, viewModelModule)
+    }) {
+        MaterialTheme {
+            val navController = rememberNavController()
 
-        NavHost(
-            navController = navController,
-            startDestination = AppRoutes.MovieList
-        ) {
-            composable<AppRoutes.MovieList> {
-                MoveisListRoutes()
-            }
+            NavHost(
+                navController = navController,
+                startDestination = AppRoutes.MovieList
+            ) {
+                composable<AppRoutes.MovieList> {
+                    MoveisListRoutes()
+                }
 
-            composable<AppRoutes.MovieDetails> {
-                // Tela de detalhes usando movieId
+                composable<AppRoutes.MovieDetails> {
+                    // Tela de detalhes usando movieId
+                }
             }
         }
     }
+
 }

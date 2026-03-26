@@ -19,8 +19,8 @@ import kotlinx.serialization.json.Json
 
 private const val BASEURL="https://api.themoviedb.org"
 const val IMAGE_SMALL_BASE_URL = "https://image.tmdb.org/t/p/w154"
-object KortClient {
-    private val KortClient = HttpClient {
+class KortClient {
+    private val kortClient = HttpClient {
         install(ContentNegotiation) {
             json(
                 Json {
@@ -51,7 +51,7 @@ object KortClient {
     }
 
     suspend fun getMovies(category:String,language:String="pt-BR"): MovieListResponse {
-        return KortClient.get("$BASEURL/3/movie/$category"){
+        return kortClient.get("$BASEURL/3/movie/$category"){
             parameter("language", language)
         }.body()
     }

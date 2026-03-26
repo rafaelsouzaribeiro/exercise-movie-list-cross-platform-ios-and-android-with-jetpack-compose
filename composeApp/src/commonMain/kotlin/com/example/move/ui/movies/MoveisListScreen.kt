@@ -18,18 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.move.data.repository.MovieRepository
 import com.example.move.domain.model.MovieSection
 import com.example.move.ui.components.MoviesSection
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun MoveisListRoutes(
-    viewModel: MovieListViewModel= viewModel {
-        MovieListViewModel(
-            moviesRepository = MovieRepository()
-        )
-    }
+    viewModel: MovieListViewModel= koinViewModel()
 ){
     val moviesListState by viewModel.movieListStates.collectAsStateWithLifecycle()
 
@@ -59,15 +54,15 @@ fun MoviesListScreen(
                         verticalArrangement = Arrangement.spacedBy(32.dp)
                     ) {
 
-                        items(movieListState.movieSections) { Moviesection ->
-                            val title = when (Moviesection.sectionType) {
+                        items(movieListState.movieSections) { moviesection ->
+                            val title = when (moviesection.sectionType) {
                                 MovieSection.SectionType.POPULAR -> "Popular Movies"
                                 MovieSection.SectionType.TOP_RATED -> "Top Rated Movies"
                                 MovieSection.SectionType.UPCOMING -> "Upcoming Movies"
                             }
                             MoviesSection(
                                 title = title,
-                                movies = Moviesection.movies
+                                movies = moviesection.movies
                             )
                         }
 
