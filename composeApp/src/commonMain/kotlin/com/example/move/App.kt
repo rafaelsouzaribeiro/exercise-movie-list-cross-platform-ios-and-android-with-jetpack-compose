@@ -1,7 +1,6 @@
 package com.example.move
 
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
@@ -12,6 +11,7 @@ import com.example.move.di.repositoryModule
 import com.example.move.di.viewModelModule
 import com.example.move.navigation.AppRoutes
 import com.example.move.ui.movies.MoveisListRoutes
+import com.example.move.ui.theme.MoviesAppTheme
 import org.koin.compose.KoinApplication
 import org.koin.dsl.koinConfiguration
 
@@ -22,7 +22,7 @@ fun App() {
     KoinApplication(configuration = koinConfiguration {
         modules(kortClientModule, repositoryModule, viewModelModule)
     }) {
-        MaterialTheme {
+        MoviesAppTheme {
             val navController = rememberNavController()
 
             NavHost(
