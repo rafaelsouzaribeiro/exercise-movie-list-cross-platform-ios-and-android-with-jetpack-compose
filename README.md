@@ -2,7 +2,7 @@
 # Move 🎬
 
 App Kotlin Multiplatform (Android + iOS) para listagem de filmes, consumindo a API do [The Movie DB (TMDB)](https://www.themoviedb.org/).
-
+Listagem de Filmes com títulos internacionalizados em EN e PT-BR, utilizando o recurso de internacionalização.
 ---
 
 ## ⚙️ Configuração inicial
