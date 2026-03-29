@@ -29,7 +29,7 @@ fun CastMemberItem(
     character: String) {
 
     Surface(
-        modifier = Modifier.height(76.dp),
+        modifier = modifier.height(76.dp),
         shape = MaterialTheme.shapes.medium,
     ) {
         Row(verticalAlignment =Alignment.CenterVertically) {

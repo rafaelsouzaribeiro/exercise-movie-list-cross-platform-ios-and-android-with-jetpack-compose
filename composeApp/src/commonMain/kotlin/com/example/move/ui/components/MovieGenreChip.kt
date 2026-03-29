@@ -18,7 +18,7 @@ fun MovieGenreChip(
     Surface(
         modifier= Modifier,
         shape = MaterialTheme.shapes.large,
-        color = Color.Red
+        color = MaterialTheme.colorScheme.error
     ) {
         Text(
             text = genre,
