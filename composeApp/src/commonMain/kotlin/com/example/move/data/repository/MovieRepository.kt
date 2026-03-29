@@ -1,6 +1,7 @@
 package com.example.move.data.repository
 
 import com.example.move.data.network.KortClient
+import com.example.move.data.network.getDefaultLanguageTag
 import com.example.move.domain.model.MovieSection
 import com.example.move.domain.model.toMovie
 import kotlinx.coroutines.CoroutineDispatcher
@@ -16,9 +17,12 @@ class MovieRepository(
 
     suspend fun getMovieSection(): List<MovieSection>{
         return withContext(ioDispatcher){
-            val popularMoviesDeferred=async{ kortClient.getMovies("popular") }
-            val topRatedMoviesDeferred=async{ kortClient.getMovies("top_rated") }
-            val upComingMoviesDeferred=async{ kortClient.getMovies("upcoming") }
+
+           val idiom = getDefaultLanguageTag()
+
+            val popularMoviesDeferred=async{ kortClient.getMovies("popular",idiom) }
+            val topRatedMoviesDeferred=async{ kortClient.getMovies("top_rated",idiom) }
+            val upComingMoviesDeferred=async{ kortClient.getMovies("upcoming",idiom) }
 
             val popularMovies=popularMoviesDeferred.await()
             val topRatedMovies=topRatedMoviesDeferred.await()
@@ -46,4 +50,5 @@ class MovieRepository(
             )
         }
     }
+
 }
