@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.move.domain.model.Move1
 import com.example.move.domain.model.MovieSection
+import com.example.move.ui.components.CastMemberItem
+import com.example.move.ui.components.MovieGenreChip
 import com.example.move.ui.components.MovieInfoItem
 import com.example.move.ui.components.MoviePoster
 import com.example.move.ui.moviedetail.MovieDetialScreen
@@ -55,6 +57,28 @@ fun MovieInfoItemPreview() {
         MovieInfoItem(
             icon = FontAwesomeIcons.Solid.Star,
             text = "8.5"
+        )
+    }
+
+}
+@Composable
+@Preview(showBackground = true)
+fun MovieMovieGenreChipPreview() {
+    MoviesAppTheme {
+        MovieGenreChip(
+            genre = "Action"
+        )
+    }
+
+}
+@Composable
+@Preview(showBackground = true)
+fun MovieCastMemberItemPreview() {
+    MoviesAppTheme {
+        CastMemberItem(
+            profilePictureUrl = "https://example.com/profile.jpg",
+            name = "John Doe",
+            character = "Hero"
         )
     }
 
