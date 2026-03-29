@@ -4,9 +4,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.move.domain.model.Move1
 import com.example.move.domain.model.MovieSection
+import com.example.move.ui.components.MovieInfoItem
 import com.example.move.ui.components.MoviePoster
+import com.example.move.ui.moviedetail.MovieDetialScreen
 import com.example.move.ui.movies.MovieListViewModel
 import com.example.move.ui.movies.MoviesListScreen
+import com.example.move.ui.theme.MoviesAppTheme
+import compose.icons.FontAwesomeIcons
+import compose.icons.fontawesomeicons.Solid
+import compose.icons.fontawesomeicons.solid.Star
 
 @Composable
 @Preview(showBackground = true)
@@ -30,4 +36,26 @@ fun MovieListScreenPreview() {
                 )
         )
     ))
+}
+
+@Composable
+@Preview(showBackground = true)
+fun MovieDetailScreenPreview() {
+    MoviesAppTheme {
+        MovieDetialScreen(
+            movie= Move1
+        )
+    }
+
+}
+@Composable
+@Preview(showBackground = true)
+fun MovieInfoItemPreview() {
+    MoviesAppTheme {
+        MovieInfoItem(
+            icon = FontAwesomeIcons.Solid.Star,
+            text = "8.5"
+        )
+    }
+
 }
