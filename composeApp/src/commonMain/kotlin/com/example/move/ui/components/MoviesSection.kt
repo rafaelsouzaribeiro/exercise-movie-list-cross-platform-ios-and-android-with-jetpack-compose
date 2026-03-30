@@ -17,6 +17,7 @@ import com.example.move.domain.model.Movie
 @Composable
 fun MoviesSection(
     modifier: Modifier = Modifier,
+    onMoviePosterClick:(movieId: Int)-> Unit,
     movies:List<Movie>,
     title:String
 ) {
@@ -31,7 +32,12 @@ fun MoviesSection(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             items(movies) { movie ->
-                MoviePoster(movie=movie)
+                MoviePoster(
+                    movie=movie
+                    , onMoviePosterClick ={
+                        onMoviePosterClick(movie.id)
+                    }
+                )
             }
         }
     }

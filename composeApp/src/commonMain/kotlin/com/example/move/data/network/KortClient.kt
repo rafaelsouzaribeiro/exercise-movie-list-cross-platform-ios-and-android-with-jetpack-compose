@@ -11,6 +11,7 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
+import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.http.HttpHeaders
@@ -50,10 +51,29 @@ class KortClient {
         }
     }
 
-    suspend fun getMovies(category:String,language:String): MovieListResponse {
+    suspend fun getMovies(category:String): MovieListResponse {
         return kortClient.get("$BASEURL/3/movie/$category"){
-            parameter("language", language)
+            addLanguageParameter()
         }.body()
     }
+
+    suspend fun getMovieDetail(movieId:Int): MovieListResponse {
+        return kortClient.get("$BASEURL/3/movie/$movieId"){
+            addLanguageParameter()
+        }.body()
+    }
+
+    suspend fun getCredits(movieId:Int): MovieListResponse {
+        return kortClient.get("$BASEURL/3/movie/$movieId/credits"){
+            addLanguageParameter()
+        }.body()
+    }
+
+    private fun HttpRequestBuilder.addLanguageParameter() {
+        val language = getDefaultLanguageTag()
+        parameter("language", language)
+    }
+
+
 
 }

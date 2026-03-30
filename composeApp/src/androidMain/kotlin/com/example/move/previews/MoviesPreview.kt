@@ -20,24 +20,29 @@ import compose.icons.fontawesomeicons.solid.Star
 @Preview(showBackground = true)
 fun MovieListPreview() {
     MoviePoster(
-        movie = Move1
+        movie = Move1,
+        onMoviePosterClick = {}
     )
 }
 
 @Composable
 @Preview(showBackground = true)
 fun MovieListScreenPreview() {
-    MoviesListScreen(
-        movieListState = MovieListViewModel.MoviesListStates.Success(
-            movieSections = listOf(
-                MovieSection(
-                    sectionType = MovieSection.SectionType.POPULAR,
-                    movies = List(10) {
-                        Move1
-                    }
+    MoviesAppTheme {
+        MoviesListScreen(
+            movieListState = MovieListViewModel.MoviesListStates.Success(
+                movieSections = listOf(
+                    MovieSection(
+                        sectionType = MovieSection.SectionType.POPULAR,
+                        movies = List(10) {
+                            Move1
+                        }
+                    )
                 )
+            ),
+            onMovieClick = {}
         )
-    ))
+    }
 }
 
 @Composable

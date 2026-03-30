@@ -60,6 +60,7 @@ kotlin {
             implementation(libs.koin.core)
 
             implementation(libs.xicon.pack.z)
+            implementation(libs.kotlinx.datetime)
         }
 
         iosMain.dependencies {

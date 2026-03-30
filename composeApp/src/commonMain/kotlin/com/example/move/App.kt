@@ -10,6 +10,7 @@ import com.example.move.di.kortClientModule
 import com.example.move.di.repositoryModule
 import com.example.move.di.viewModelModule
 import com.example.move.navigation.AppRoutes
+import com.example.move.ui.moviedetail.MovieDetailRoute
 import com.example.move.ui.movies.MoveisListRoutes
 import com.example.move.ui.theme.MoviesAppTheme
 import org.koin.compose.KoinApplication
@@ -30,11 +31,15 @@ fun App() {
                 startDestination = AppRoutes.MovieList
             ) {
                 composable<AppRoutes.MovieList> {
-                    MoveisListRoutes()
+                    MoveisListRoutes(
+                        navegationToMovieDetail = { movieId ->
+                            navController.navigate(AppRoutes.MovieDetails(movieId))
+                        }
+                    )
                 }
 
                 composable<AppRoutes.MovieDetails> {
-                    // Tela de detalhes usando movieId
+                    MovieDetailRoute()
                 }
             }
         }

@@ -1,6 +1,6 @@
 package com.example.move.ui.components
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,16 +16,17 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.move.domain.model.Movie
-import move.composeapp.generated.resources.Res
-import move.composeapp.generated.resources.foto
-import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun MoviePoster(
     modifier: Modifier = Modifier,
+    onMoviePosterClick:()-> Unit,
     movie: Movie
 ) {
-    Column(modifier = modifier.width(140.dp)) {
+    Column(
+        modifier = modifier.width(140.dp)
+            .clickable(onClick = onMoviePosterClick)
+    ) {
         Card(modifier=
             Modifier.width(140.dp).height(210.dp),
             shape = RoundedCornerShape(12.dp)
