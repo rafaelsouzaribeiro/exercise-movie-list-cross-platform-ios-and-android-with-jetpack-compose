@@ -1,20 +1,25 @@
 package com.example.move.data.mapper
 
-import com.example.move.data.network.IMAGE_SMALL_BASE_URL
+import com.example.move.data.network.IMAGE_BASE_URL
 import com.example.move.data.network.model.CastMemberResponse
 import com.example.move.data.network.model.MovieResponse
+import com.example.move.domain.model.ImageSize
 import com.example.move.domain.model.Movie
+import com.example.move.utils.FormatRating
 import kotlin.math.roundToInt
 
-fun MovieResponse.toModel(castMemberResponse: List<CastMemberResponse>?=null)  = Movie (
+fun MovieResponse.toModel(
+    castMemberResponse: List<CastMemberResponse>?=null,
+    imageSize: ImageSize = ImageSize.SMALL,
+)  = Movie (
      id = this.id,
      title = this.title,
      overview = this.overview,
-     posterUrl = "$IMAGE_SMALL_BASE_URL${this.posterPath}",
+     posterUrl = "$IMAGE_BASE_URL/${imageSize.size}/${this.posterPath}",
     genres = this.genres?.map { it.toModel() },
     year = this.getYearGenresFromReleaseDate(),
     duration = this.getDurationForHourandMinutes(),
-    rating = "${this.voteAverage.roundToInt()}",
+    rating = this.voteAverage.FormatRating(),
     castMembers = castMemberResponse
         ?.filter { it.department=="Acting" }
         ?.take(20)

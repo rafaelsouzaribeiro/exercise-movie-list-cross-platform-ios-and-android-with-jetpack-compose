@@ -52,8 +52,9 @@ fun MovieDetailScreenPreview() {
     MoviesAppTheme {
         MovieDetialScreen(
             movieDetailState = MovieDetailViewModel.MovieDetailState.Success(
-                movieDetail = Move1
-            )
+                movieDetail = Move1,
+            ),
+            onNavegationIconClick = { }
         )
     }
 

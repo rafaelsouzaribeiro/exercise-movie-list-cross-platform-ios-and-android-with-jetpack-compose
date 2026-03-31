@@ -1,8 +1,5 @@
 package com.example.move.domain.model
 
-import com.example.move.data.network.IMAGE_SMALL_BASE_URL
-import com.example.move.data.network.model.MovieResponse
-
 data class Movie(
     val id: Int,
     val title: String,

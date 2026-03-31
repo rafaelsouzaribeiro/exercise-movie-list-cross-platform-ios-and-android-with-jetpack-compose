@@ -2,6 +2,7 @@ package com.example.move.data.repository
 
 import com.example.move.data.mapper.toModel
 import com.example.move.data.network.KortClient
+import com.example.move.domain.model.ImageSize
 import com.example.move.domain.model.Movie
 import com.example.move.domain.model.MovieSection
 import kotlinx.coroutines.CoroutineDispatcher
@@ -58,7 +59,10 @@ class MovieRepository(
                 val movieDetailsResponse = movieDetailDeferred.await()
                 val creditsResponse = creditsDeferred.await()
 
-                movieDetailsResponse.toModel(creditsResponse.cast)
+                movieDetailsResponse.toModel(
+                    castMemberResponse = creditsResponse.cast,
+                    imageSize = ImageSize.X_LARGE,
+                )
             }
         }
     }

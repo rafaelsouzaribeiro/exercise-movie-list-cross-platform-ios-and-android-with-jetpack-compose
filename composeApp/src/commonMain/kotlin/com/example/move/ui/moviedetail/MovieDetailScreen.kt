@@ -1,6 +1,5 @@
 package com.example.move.ui.moviedetail
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -15,6 +14,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
@@ -35,6 +37,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil3.compose.AsyncImage
 import com.example.move.domain.model.Movie
 import com.example.move.ui.components.CastMemberItem
 import com.example.move.ui.components.MovieGenreChip
@@ -47,17 +50,20 @@ import compose.icons.fontawesomeicons.solid.Clock
 import compose.icons.fontawesomeicons.solid.Play
 import compose.icons.fontawesomeicons.solid.Star
 import move.composeapp.generated.resources.Res
-import move.composeapp.generated.resources.foto
-import org.jetbrains.compose.resources.painterResource
+import move.composeapp.generated.resources.movies_detail
+import move.composeapp.generated.resources.movies_detail_watch_trailer
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun MovieDetailRoute(
-    viewModel: MovieDetailViewModel= koinViewModel()
+    viewModel: MovieDetailViewModel= koinViewModel(),
+    navigateBack: () -> Unit
 ){
     val movieDetailState = viewModel.movieDetailState.collectAsStateWithLifecycle()
     MovieDetialScreen(
         movieDetailState = movieDetailState.value,
+        onNavegationIconClick = navigateBack,
     )
 }
 
@@ -66,12 +72,15 @@ fun MovieDetailRoute(
 @Composable
 fun MovieDetialScreen(
     movieDetailState: MovieDetailViewModel.MovieDetailState,
+    onNavegationIconClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(text = "Movie Details")
+                    Text(
+                        text = stringResource(Res.string.movies_detail)
+                    )
                 },
                 navigationIcon = {
 
@@ -80,7 +89,7 @@ fun MovieDetialScreen(
                         shape = MaterialTheme.shapes.small
                     ) {
                         IconButton(
-                            onClick = { /* TODO: Handle back navigation */ },
+                            onClick = onNavegationIconClick,
                             modifier = Modifier.size(32.dp)
                         ) {
                             Icon(
@@ -126,9 +135,11 @@ fun MovieDetailContent(
     movie: Movie,
     modifier: Modifier = Modifier
 ) {
+    val scrollSate= rememberScrollState()
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
+            .verticalScroll(scrollSate)
     ) {
         Surface(
             modifier = Modifier.fillMaxSize()
@@ -136,8 +147,8 @@ fun MovieDetailContent(
                 .padding(16.dp),
             shape = MaterialTheme.shapes.large
         ) {
-            Image(
-                painter = painterResource(Res.drawable.foto),
+            AsyncImage(
+                model = movie.posterUrl,
                 contentDescription = null,
                 modifier = Modifier.clip(MaterialTheme.shapes.large),
                 contentScale = ContentScale.Crop
@@ -165,19 +176,21 @@ fun MovieDetailContent(
             ) {
                 MovieInfoItem(
                     icon = FontAwesomeIcons.Solid.Star,
-                    text = "7.5"
+                    text = movie.rating
                 )
                 Spacer(modifier = Modifier.width(16.dp))
 
-                MovieInfoItem(
-                    icon = FontAwesomeIcons.Solid.Clock,
-                    text = "7h50m"
-                )
+                movie.duration?.let {
+                    MovieInfoItem(
+                        icon = FontAwesomeIcons.Solid.Clock,
+                        text = it
+                    )
+                }
                 Spacer(modifier = Modifier.width(16.dp))
 
                 MovieInfoItem(
                     icon = FontAwesomeIcons.Solid.Calendar,
-                    text = "2022"
+                    text = "${movie.year}"
                 )
                 Spacer(modifier = Modifier.width(16.dp))
             }
@@ -185,9 +198,16 @@ fun MovieDetailContent(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                MovieGenreChip(
-                    genre = "Action"
-                )
+
+                movie.genres?.forEachIndexed{ index, genre ->
+                    MovieGenreChip(
+                        genre = genre.name
+                    )
+
+                    if (index < movie.genres.size - 1) {
+                        Spacer(modifier = Modifier.width(8.dp))
+                    }
+                }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -202,7 +222,7 @@ fun MovieDetailContent(
                     tint = MaterialTheme.colorScheme.error
                 )
                 Text(
-                    text = "Watch Now",
+                    text = stringResource(Res.string.movies_detail_watch_trailer),
                     modifier = Modifier.padding(start = 16.dp),
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.bodyMedium,
@@ -210,33 +230,37 @@ fun MovieDetailContent(
                 )
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
-            BoxWithConstraints(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                val itemWitdh = this.maxWidth * 0.55f
-
-                LazyRow(
-                    contentPadding = PaddingValues(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+            movie.castMembers?.let {
+                Spacer(modifier = Modifier.height(16.dp))
+                BoxWithConstraints(
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    items(10) {
-                        CastMemberItem(
-                            profilePictureUrl = "",
-                            name = "Actor Name",
-                            character = "Character Name",
-                            modifier = Modifier.width(itemWitdh)
-                        )
+                    val itemWitdh = this.maxWidth * 0.55f
+
+                    LazyRow(
+                        contentPadding = PaddingValues(16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        items(it) { member->
+                            CastMemberItem(
+                                profilePictureUrl =member.profileUrl ,
+                                name = member.name,
+                                character = member.character,
+                                modifier = Modifier.width(itemWitdh)
+                            )
+                        }
                     }
                 }
+
             }
 
             Spacer(modifier = Modifier.height(16.dp))
             Box(
                 modifier = Modifier.padding(16.dp)
+                    .fillMaxWidth()
             ) {
                 Text(
-                    text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                    text = movie.overview,
                     style = MaterialTheme.typography.bodySmall
                 )
 
