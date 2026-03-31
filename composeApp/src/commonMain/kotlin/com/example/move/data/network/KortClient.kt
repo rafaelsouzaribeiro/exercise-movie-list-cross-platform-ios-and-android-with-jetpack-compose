@@ -1,6 +1,8 @@
 package com.example.move.data.network
 
+import com.example.move.data.network.model.CreditsListResponse
 import com.example.move.data.network.model.MovieListResponse
+import com.example.move.data.network.model.MovieResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.auth.Auth
@@ -57,13 +59,13 @@ class KortClient {
         }.body()
     }
 
-    suspend fun getMovieDetail(movieId:Int): MovieListResponse {
+    suspend fun getMovieDetail(movieId:Int): MovieResponse {
         return kortClient.get("$BASEURL/3/movie/$movieId"){
             addLanguageParameter()
         }.body()
     }
 
-    suspend fun getCredits(movieId:Int): MovieListResponse {
+    suspend fun getCredits(movieId:Int): CreditsListResponse {
         return kortClient.get("$BASEURL/3/movie/$movieId/credits"){
             addLanguageParameter()
         }.body()

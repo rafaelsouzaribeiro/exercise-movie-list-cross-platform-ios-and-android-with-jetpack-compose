@@ -8,6 +8,7 @@ import com.example.move.ui.components.CastMemberItem
 import com.example.move.ui.components.MovieGenreChip
 import com.example.move.ui.components.MovieInfoItem
 import com.example.move.ui.components.MoviePoster
+import com.example.move.ui.moviedetail.MovieDetailViewModel
 import com.example.move.ui.moviedetail.MovieDetialScreen
 import com.example.move.ui.movies.MovieListViewModel
 import com.example.move.ui.movies.MoviesListScreen
@@ -50,7 +51,9 @@ fun MovieListScreenPreview() {
 fun MovieDetailScreenPreview() {
     MoviesAppTheme {
         MovieDetialScreen(
-            movie= Move1
+            movieDetailState = MovieDetailViewModel.MovieDetailState.Success(
+                movieDetail = Move1
+            )
         )
     }
 

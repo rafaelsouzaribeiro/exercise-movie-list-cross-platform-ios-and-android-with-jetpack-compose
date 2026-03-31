@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -33,7 +34,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.move.domain.model.Move1
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.move.domain.model.Movie
 import com.example.move.ui.components.CastMemberItem
 import com.example.move.ui.components.MovieGenreChip
@@ -48,16 +49,24 @@ import compose.icons.fontawesomeicons.solid.Star
 import move.composeapp.generated.resources.Res
 import move.composeapp.generated.resources.foto
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun MovieDetailRoute(){
-    MovieDetialScreen(movie = Move1)
+fun MovieDetailRoute(
+    viewModel: MovieDetailViewModel= koinViewModel()
+){
+    val movieDetailState = viewModel.movieDetailState.collectAsStateWithLifecycle()
+    MovieDetialScreen(
+        movieDetailState = movieDetailState.value,
+    )
 }
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MovieDetialScreen(movie: Movie) {
+fun MovieDetialScreen(
+    movieDetailState: MovieDetailViewModel.MovieDetailState,
+) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -89,124 +98,151 @@ fun MovieDetialScreen(movie: Movie) {
             )
         }
     ) { paddingValues ->
-        Column(
+        Box(
             modifier = Modifier.padding(paddingValues)
-                .fillMaxSize()
+                .fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ){
+            when(movieDetailState){
+                is MovieDetailViewModel.MovieDetailState.Loading -> {
+                    CircularProgressIndicator()
+                }
+                is MovieDetailViewModel.MovieDetailState.Success -> {
+                    MovieDetailContent(movie = movieDetailState.movieDetail)
+                }
+                is MovieDetailViewModel.MovieDetailState.Error -> {
+                    Text(
+                        text = "Error: ${movieDetailState.message}",
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
+        }
+    }
+}
+@Composable
+fun MovieDetailContent(
+    movie: Movie,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Surface(
+            modifier = Modifier.fillMaxSize()
+                .weight(1f)
+                .padding(16.dp),
+            shape = MaterialTheme.shapes.large
         ) {
-            Surface(
-                modifier = Modifier.fillMaxSize()
-                    .weight(1f)
-                    .padding(16.dp),
-                shape = MaterialTheme.shapes.large
+            Image(
+                painter = painterResource(Res.drawable.foto),
+                contentDescription = null,
+                modifier = Modifier.clip(MaterialTheme.shapes.large),
+                contentScale = ContentScale.Crop
+            )
+        }
+
+        Column(
+            modifier = Modifier.fillMaxWidth()
+                .weight(2f)
+                .padding(top = 20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = movie.title,
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(
-                    painter = painterResource(Res.drawable.foto),
-                    contentDescription = null,
-                    modifier = Modifier.clip(MaterialTheme.shapes.large),
-                    contentScale = ContentScale.Crop
+                MovieInfoItem(
+                    icon = FontAwesomeIcons.Solid.Star,
+                    text = "7.5"
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+
+                MovieInfoItem(
+                    icon = FontAwesomeIcons.Solid.Clock,
+                    text = "7h50m"
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+
+                MovieInfoItem(
+                    icon = FontAwesomeIcons.Solid.Calendar,
+                    text = "2022"
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                MovieGenreChip(
+                    genre = "Action"
                 )
             }
 
-            Column(
-                modifier = Modifier.fillMaxWidth()
-                    .weight(2f)
-                    .padding(top = 20.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+            Spacer(modifier = Modifier.height(16.dp))
+            ElevatedButton(
+                onClick = { /* TODO: Handle watch now action */ },
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
             ) {
-                Text(
-                    text = movie.title,
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold
+                Icon(
+                    imageVector = FontAwesomeIcons.Solid.Play,
+                    contentDescription = "Play",
+                    modifier = Modifier.size(12.dp),
+                    tint = MaterialTheme.colorScheme.error
                 )
+                Text(
+                    text = "Watch Now",
+                    modifier = Modifier.padding(start = 16.dp),
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
 
-                Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
+            BoxWithConstraints(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                val itemWitdh = this.maxWidth * 0.55f
 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
+                LazyRow(
+                    contentPadding = PaddingValues(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    MovieInfoItem(
-                        icon = FontAwesomeIcons.Solid.Star,
-                        text = "7.5"
-                    )
-                    Spacer(modifier = Modifier.width(16.dp))
-
-                    MovieInfoItem(
-                        icon = FontAwesomeIcons.Solid.Clock,
-                        text = "7h50m"
-                    )
-                    Spacer(modifier = Modifier.width(16.dp))
-
-                    MovieInfoItem(
-                        icon = FontAwesomeIcons.Solid.Calendar,
-                        text = "2022"
-                    )
-                    Spacer(modifier = Modifier.width(16.dp))
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    MovieGenreChip(
-                        genre = "Action"
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
-                ElevatedButton(
-                    onClick = { /* TODO: Handle watch now action */ },
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
-                ) {
-                    Icon(
-                        imageVector = FontAwesomeIcons.Solid.Play,
-                        contentDescription = "Play",
-                        modifier = Modifier.size(12.dp),
-                        tint = MaterialTheme.colorScheme.error
-                    )
-                    Text(
-                        text = "Watch Now",
-                        modifier = Modifier.padding(start = 16.dp),
-                        fontWeight = FontWeight.Bold,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.error
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
-                BoxWithConstraints(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    val itemWitdh = this.maxWidth * 0.55f
-
-                    LazyRow(
-                        contentPadding = PaddingValues(16.dp),
-                        horizontalArrangement = Arrangement.spacedBy(16.dp)
-                    ) {
-                        items(10) {
-                            CastMemberItem(
-                                profilePictureUrl = "",
-                                name = "Actor Name",
-                                character = "Character Name",
-                                modifier = Modifier.width(itemWitdh)
-                            )
-                        }
+                    items(10) {
+                        CastMemberItem(
+                            profilePictureUrl = "",
+                            name = "Actor Name",
+                            character = "Character Name",
+                            modifier = Modifier.width(itemWitdh)
+                        )
                     }
                 }
+            }
 
-                Spacer(modifier = Modifier.height(16.dp))
-                Box(
-                    modifier = Modifier.padding(16.dp)
-                ){
-                    Text(
-                        text= "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                        style = MaterialTheme.typography.bodySmall
-                        )
-
-                }
-
+            Spacer(modifier = Modifier.height(16.dp))
+            Box(
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Text(
+                    text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                    style = MaterialTheme.typography.bodySmall
+                )
 
             }
+
+
         }
     }
 }

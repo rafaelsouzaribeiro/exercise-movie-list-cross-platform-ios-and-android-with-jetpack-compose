@@ -1,8 +1,9 @@
 package com.example.move.data.repository
 
+import com.example.move.data.mapper.toModel
 import com.example.move.data.network.KortClient
+import com.example.move.domain.model.Movie
 import com.example.move.domain.model.MovieSection
-import com.example.move.domain.model.toMovie
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -29,22 +30,36 @@ class MovieRepository(
                 MovieSection(
                     sectionType = MovieSection.SectionType.POPULAR,
                     movies = popularMovies.results.map {
-                        it.toMovie()
+                        it.toModel()
                     }
                 ),
                 MovieSection(
                     sectionType = MovieSection.SectionType.TOP_RATED,
                     movies = topRatedMovies.results.map {
-                        it.toMovie()
+                        it.toModel()
                     }
                 ),
                 MovieSection(
                     sectionType = MovieSection.SectionType.UPCOMING,
                     movies = upComingMovies.results.map {
-                        it.toMovie()
+                        it.toModel()
                     }
                 )
             )
+        }
+    }
+
+    suspend fun getMovieDetail(moveId:Int): Result<Movie>{
+        return withContext(ioDispatcher){
+            runCatching {
+                val movieDetailDeferred= async{kortClient.getMovieDetail(moveId)}
+                val creditsDeferred=async{kortClient.getCredits(moveId)}
+
+                val movieDetailsResponse = movieDetailDeferred.await()
+                val creditsResponse = creditsDeferred.await()
+
+                movieDetailsResponse.toModel(creditsResponse.cast)
+            }
         }
     }
 
