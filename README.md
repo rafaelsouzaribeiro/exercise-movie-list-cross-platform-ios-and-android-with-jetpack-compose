@@ -1,4 +1,3 @@
-# Estamos em construção 🚧falta ainda alguns detalhes.
 # Move 🎬
 
 App Kotlin Multiplatform (Android + iOS) para listagem de filmes, consumindo a API do [The Movie DB (TMDB)](https://www.themoviedb.org/).
@@ -50,4 +49,8 @@ object Secrets {
 
 <p align="center">
   <img src="doc/images/tmbdb.jpeg" alt="Exibição do projeto" width="320" />
+</p>
+
+<p align="center">
+  <img src="doc/images/movie_detail.jpeg" alt="Exibição do projeto" width="320" />
 </p>
