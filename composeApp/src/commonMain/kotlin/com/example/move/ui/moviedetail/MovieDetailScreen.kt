@@ -140,7 +140,7 @@ fun MovieDetailContent(
 
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .verticalScroll(scrollState)
     ) {
@@ -153,7 +153,8 @@ fun MovieDetailContent(
             AsyncImage(
                 model = movie.posterUrl,
                 contentDescription = null,
-                modifier = Modifier.clip(MaterialTheme.shapes.large),
+                modifier = Modifier.clip(MaterialTheme.shapes.large)
+                    .height(200.dp),
                 contentScale = ContentScale.Crop
             )
         }
