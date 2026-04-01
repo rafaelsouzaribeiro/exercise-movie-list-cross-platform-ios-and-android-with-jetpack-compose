@@ -57,9 +57,9 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun MovieDetailRoute(
-    viewModel: MovieDetailViewModel= koinViewModel(),
+    viewModel: MovieDetailViewModel = koinViewModel(),
     navigateBack: () -> Unit
-){
+) {
     val movieDetailState = viewModel.movieDetailState.collectAsStateWithLifecycle()
     MovieDetialScreen(
         movieDetailState = movieDetailState.value,
@@ -111,8 +111,8 @@ fun MovieDetialScreen(
             modifier = Modifier.padding(paddingValues)
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
-        ){
-            when(movieDetailState){
+        ) {
+            when (movieDetailState) {
                 is MovieDetailViewModel.MovieDetailState.Loading -> {
                     CircularProgressIndicator()
                 }
@@ -130,20 +130,23 @@ fun MovieDetialScreen(
         }
     }
 }
+
 @Composable
 fun MovieDetailContent(
     movie: Movie,
     modifier: Modifier = Modifier
 ) {
-    val scrollSate= rememberScrollState()
+    val scrollState = rememberScrollState()
+
+
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(scrollSate)
+            .verticalScroll(scrollState)
     ) {
         Surface(
-            modifier = Modifier.fillMaxSize()
-                .weight(1f)
+            modifier = Modifier
+                .fillMaxSize()
                 .padding(16.dp),
             shape = MaterialTheme.shapes.large
         ) {
@@ -156,8 +159,8 @@ fun MovieDetailContent(
         }
 
         Column(
-            modifier = Modifier.fillMaxWidth()
-                .weight(2f)
+            modifier = Modifier
+                .fillMaxWidth()
                 .padding(top = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -199,7 +202,7 @@ fun MovieDetailContent(
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
-                movie.genres?.forEachIndexed{ index, genre ->
+                movie.genres?.forEachIndexed { index, genre ->
                     MovieGenreChip(
                         genre = genre.name
                     )
@@ -235,18 +238,18 @@ fun MovieDetailContent(
                 BoxWithConstraints(
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    val itemWitdh = this.maxWidth * 0.55f
+                    val itemWidth = this.maxWidth * 0.55f
 
                     LazyRow(
                         contentPadding = PaddingValues(16.dp),
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        items(it) { member->
+                        items(it) { member ->
                             CastMemberItem(
-                                profilePictureUrl =member.profileUrl ,
+                                profilePictureUrl = member.profileUrl,
                                 name = member.name,
                                 character = member.character,
-                                modifier = Modifier.width(itemWitdh)
+                                modifier = Modifier.width(itemWidth)
                             )
                         }
                     }
@@ -264,9 +267,9 @@ fun MovieDetailContent(
                     style = MaterialTheme.typography.bodySmall
                 )
 
+
             }
-
-
         }
     }
 }
+
