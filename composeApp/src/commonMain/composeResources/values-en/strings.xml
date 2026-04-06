@@ -2,6 +2,6 @@
     <string name="movies_list_popular_movies">Popular Movies</string>
     <string name="movies_list_top_rated_movies">Top Rated Movies</string>
     <string name="movies_list_upcoming_movies">Upcoming movies</string>
-    <string name="movies_detail_watch_trailer">Watch trailer</string>
+    <string name="movies_detail_watch_trailer">Watch trailer (Double-click the movie if it is not displaying correctly.)</string>
     <string name="movies_detail">Movie details</string>
 </resources>

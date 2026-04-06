@@ -1,6 +1,7 @@
 package com.example.move.ui.moviedetail
 
 import VideoPlayer
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -40,6 +41,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -132,7 +134,9 @@ fun MovieDetialScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     VideoPlayer(
-                        modifier = Modifier.fillMaxWidth().aspectRatio(16 / 9f),
+                        modifier = Modifier.fillMaxSize()
+                            .aspectRatio(16f / 9f)
+                            .clip(MaterialTheme.shapes.medium),
                         url = "https://www.youtube.com/watch?v=$key",
                         showControls = true,
                         autoPlay = true
@@ -153,7 +157,7 @@ fun MovieDetialScreen(
                 is MovieDetailViewModel.MovieDetailState.Success -> {
                     MovieDetailContent(
                         movie = movieDetailState.movieDetail,
-                        onWatchTrailerClick = { youtubeVideoId=it }
+                        onWatchTrailerClick = { youtubeVideoId=movieDetailState.movieDetail.movieTrailerYoutubeKey }
                         )
                 }
                 is MovieDetailViewModel.MovieDetailState.Error -> {
