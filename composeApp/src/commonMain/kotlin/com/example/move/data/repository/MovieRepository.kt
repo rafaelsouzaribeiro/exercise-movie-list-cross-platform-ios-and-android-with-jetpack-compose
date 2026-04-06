@@ -55,12 +55,20 @@ class MovieRepository(
             runCatching {
                 val movieDetailDeferred= async{kortClient.getMovieDetail(moveId)}
                 val creditsDeferred=async{kortClient.getCredits(moveId)}
+                val videoDeffered=async{kortClient.getVideos(moveId)}
 
+                val videoResponse=videoDeffered.await()
                 val movieDetailsResponse = movieDetailDeferred.await()
                 val creditsResponse = creditsDeferred.await()
 
+                val movieTrailerYoutubeKey = videoResponse.results
+                    .firstOrNull { it.site=="YouTube" }
+                    ?.key
+
+
                 movieDetailsResponse.toModel(
                     castMemberResponse = creditsResponse.cast,
+                    movieTrailerYoutubeKey  = movieTrailerYoutubeKey,
                     imageSize = ImageSize.X_LARGE,
                 )
             }

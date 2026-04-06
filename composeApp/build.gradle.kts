@@ -59,6 +59,7 @@ kotlin {
             implementation(libs.koin.compose.viewmodel.navigation)
             implementation(libs.koin.core)
 
+            implementation(libs.mediaplayer.kmp)
             implementation(libs.xicon.pack.z)
             implementation(libs.kotlinx.datetime)
         }

@@ -10,6 +10,7 @@ import kotlin.math.roundToInt
 
 fun MovieResponse.toModel(
     castMemberResponse: List<CastMemberResponse>?=null,
+    movieTrailerYoutubeKey:String?=null,
     imageSize: ImageSize = ImageSize.SMALL,
 )  = Movie (
      id = this.id,
@@ -23,8 +24,8 @@ fun MovieResponse.toModel(
     castMembers = castMemberResponse
         ?.filter { it.department=="Acting" }
         ?.take(20)
-        ?.map { it.toModel() }
-
+        ?.map { it.toModel() },
+    movieTrailerYoutubeKey = movieTrailerYoutubeKey
 
 )
 

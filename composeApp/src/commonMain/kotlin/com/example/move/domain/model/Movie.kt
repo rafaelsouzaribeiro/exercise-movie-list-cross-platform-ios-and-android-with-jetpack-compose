@@ -9,7 +9,8 @@ data class Movie(
     val year: Int,
     val duration:String?,
     val rating: String,
-    val castMembers: List<CastMember>?
+    val castMembers: List<CastMember>?,
+    val movieTrailerYoutubeKey: String?
     )
 
 
@@ -22,5 +23,6 @@ val Move1 = Movie(
     year = 1994,
     duration = "2h 22m",
     rating = "9.3",
-    castMembers = listOf(castMember1,castMenber2    )
+    castMembers = listOf(castMember1,castMenber2    ),
+    movieTrailerYoutubeKey = "6hB3S9kYpDg"
 )
