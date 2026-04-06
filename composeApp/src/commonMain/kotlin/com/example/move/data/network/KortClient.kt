@@ -74,7 +74,7 @@ class KortClient {
 
     suspend fun getVideos(movieId:Int): VideoListResponse {
         return kortClient.get("$BASEURL/3/movie/$movieId/videos"){
-            parameter("language", "en-US")
+            addLanguageParameter()
         }.body()
     }
 
