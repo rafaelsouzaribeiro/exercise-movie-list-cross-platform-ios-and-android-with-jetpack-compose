@@ -2,6 +2,6 @@
     <string name="movies_list_popular_movies">Filmes Populares</string>
     <string name="movies_list_top_rated_movies">Filmes Mais Bem Avaliados</string>
     <string name="movies_list_upcoming_movies">Próximos Lançamentos</string>
-    <string name="movies_detail_watch_trailer">Assitir tralier (Clique duas vezes no vídeo caso não apareça)</string>
+    <string name="movies_detail_watch_trailer">Assitir tralier</string>
     <string name="movies_detail">Detalhes do Filme</string>
 </resources>
