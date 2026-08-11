@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.move.data.repository.MovieRepository
 import com.example.move.domain.model.MovieSection
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -97,6 +98,9 @@ class MovieListViewModel(
 
             try {
                 val nextPage = current.currentPage + 1
+
+                delay(3_000)
+
                 val nextSection = fetch(nextPage)
 
                 stateFlow.update {
