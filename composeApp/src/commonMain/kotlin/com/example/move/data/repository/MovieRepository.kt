@@ -16,10 +16,10 @@ class MovieRepository(
     private val kortClient: KortClient
 ) {
 
-    suspend fun getMovieUPComing(): MovieSection{
+    suspend fun getMovieUPComing(page: Int): MovieSection{
         return withContext(ioDispatcher){
 
-            val upComingMoviesDeferred=async{ kortClient.getMovies("upcoming") }
+            val upComingMoviesDeferred=async{ kortClient.getMovies("upcoming",page) }
 
             val upComingMovies=upComingMoviesDeferred.await()
 
@@ -32,10 +32,10 @@ class MovieRepository(
         }
     }
 
-    suspend fun getMoviePopular(): MovieSection{
+    suspend fun getMoviePopular(page: Int): MovieSection{
         return withContext(ioDispatcher){
 
-            val popularMoviesDeferred=async{ kortClient.getMovies("popular") }
+            val popularMoviesDeferred=async{ kortClient.getMovies("popular",page) }
 
             val popularMovies=popularMoviesDeferred.await()
 
@@ -49,10 +49,10 @@ class MovieRepository(
     }
 
 
-    suspend fun getMovieTopRated(): MovieSection{
+    suspend fun getMovieTopRated(page:Int): MovieSection{
         return withContext(ioDispatcher){
 
-            val topRatedMoviesDeferred=async{ kortClient.getMovies("top_rated") }
+            val topRatedMoviesDeferred=async{ kortClient.getMovies("top_rated",page) }
             val topRatedMovies=topRatedMoviesDeferred.await()
 
                 MovieSection(

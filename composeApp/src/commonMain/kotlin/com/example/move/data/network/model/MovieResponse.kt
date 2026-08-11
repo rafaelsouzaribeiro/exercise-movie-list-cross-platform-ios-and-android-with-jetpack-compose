@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class MovieListResponse (
+    val page: Int=1,
     val results: List<MovieResponse>,
 )
 @Serializable

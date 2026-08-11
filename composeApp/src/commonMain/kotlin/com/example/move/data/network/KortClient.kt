@@ -54,8 +54,8 @@ class KortClient {
         }
     }
 
-    suspend fun getMovies(category:String): MovieListResponse {
-        return kortClient.get("$BASEURL/3/movie/$category"){
+    suspend fun getMovies(category:String,page:Int): MovieListResponse {
+        return kortClient.get("$BASEURL/3/movie/$category?page=$page"){
             addLanguageParameter()
         }.body()
     }

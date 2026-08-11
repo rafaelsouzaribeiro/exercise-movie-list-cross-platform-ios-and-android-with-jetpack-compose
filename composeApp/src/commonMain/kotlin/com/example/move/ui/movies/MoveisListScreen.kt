@@ -41,7 +41,8 @@ fun MoveisListRoutes(
             moviesListStatePopular,
             moviesListStateTopRated,
             moviesListStateUpComing),
-        onMovieClick =navegationToMovieDetail
+        onMovieClick =navegationToMovieDetail,
+        onLoadMore = viewModel::onLoadMore
     )
 }
 
@@ -49,6 +50,7 @@ fun MoveisListRoutes(
 fun MoviesListScreen(
     movieListState: List<MovieListViewModel.MoviesListStates>,
     onMovieClick: (movieId: Int) -> Unit,
+    onLoadMore: (MovieSection.SectionType) -> Unit
 ) {
     Scaffold { paddingValues ->
         LazyColumn(
@@ -86,7 +88,9 @@ fun MoviesListScreen(
                         MoviesSection(
                             title = title,
                             movies = state.movieSections.movies,
-                            onMoviePosterClick = onMovieClick
+                            isLoadingMore = state.isLoadingMore,
+                            onMoviePosterClick = onMovieClick,
+                            onLoadMore = { onLoadMore(state.movieSections.sectionType) }
                         )
                     }
 

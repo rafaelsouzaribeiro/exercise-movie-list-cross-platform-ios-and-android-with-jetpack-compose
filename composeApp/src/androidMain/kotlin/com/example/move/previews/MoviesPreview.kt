@@ -37,12 +37,17 @@ fun MovieListScreenPreview() {
                         sectionType = MovieSection.SectionType.POPULAR,
                         movies = List(10) {
                             Move1
-                        }
-                    )
+                        },
+
+                    ),
+                currentPage = 1,
+                isLoadingMore=false,
+                endReached=false
 
                 )
             ),
-            onMovieClick = {}
+            onMovieClick = {},
+            onLoadMore ={}
         )
     }
 }
