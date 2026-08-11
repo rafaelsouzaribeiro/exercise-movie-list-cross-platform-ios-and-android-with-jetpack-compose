@@ -18,7 +18,7 @@ data class MovieResponse (
     val posterPath: String,
     val genres: List<GenreResponse>?=null,
     @SerialName("release_date")
-    val releaseDate: LocalDate,
+    val releaseDate: String?=null,
     val runtime: Int?=null,
     @SerialName("vote_average")
     val voteAverage: Double,

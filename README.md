@@ -9,7 +9,7 @@ Listagem de Filmes com títulos internacionalizados em EN e PT-BR, utilizando o 
 ### 1. Criar conta no TMDB
 
 1. Acesse **[https://www.themoviedb.org/signup](https://www.themoviedb.org/signup)**
-2. Preencha nome, e-mail e senha → clique em **Junte-se ao TMDB**
+2. Preencha nome de usuário, senha, confirma senha e e-mail → clique em **Registrar**
 3. Confirme o e-mail recebido na sua caixa de entrada
 
 ---

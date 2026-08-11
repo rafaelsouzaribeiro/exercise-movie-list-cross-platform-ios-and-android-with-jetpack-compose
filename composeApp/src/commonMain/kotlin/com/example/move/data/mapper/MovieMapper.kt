@@ -6,39 +6,38 @@ import com.example.move.data.network.model.MovieResponse
 import com.example.move.domain.model.ImageSize
 import com.example.move.domain.model.Movie
 import com.example.move.utils.FormatRating
-import kotlin.math.roundToInt
+import kotlinx.datetime.LocalDate
 
 fun MovieResponse.toModel(
     castMemberResponse: List<CastMemberResponse>?=null,
     movieTrailerYoutubeKey:String?=null,
     imageSize: ImageSize = ImageSize.SMALL,
 )  = Movie (
-     id = this.id,
-     title = this.title,
-     overview = this.overview,
-     posterUrl = "$IMAGE_BASE_URL/${imageSize.size}/${this.posterPath}",
+    id = this.id,
+    title = this.title,
+    overview = this.overview,
+    posterUrl = "$IMAGE_BASE_URL/${imageSize.size}/${this.posterPath}",
     genres = this.genres?.map { it.toModel() },
     year = this.getYearGenresFromReleaseDate(),
     duration = this.getDurationForHourandMinutes(),
     rating = this.voteAverage.FormatRating(),
     castMembers = castMemberResponse
-        ?.filter { it.department=="Acting" }
-        ?.take(20)
         ?.map { it.toModel() },
     movieTrailerYoutubeKey = movieTrailerYoutubeKey
 
 )
 
 private fun MovieResponse.getYearGenresFromReleaseDate():Int{
-    return this.releaseDate.year
+    return releaseDate
+        ?.let { runCatching { LocalDate.parse(it).year }.getOrNull() }
+        ?: 0
 }
-
 private fun MovieResponse.getDurationForHourandMinutes():String?{
     return  this.runtime?.let {
         val hours = it / 60
         val minutes = it % 60
 
-         buildString {
+        buildString {
             if (hours > 0) {
                 append("${hours}h ")
             }
