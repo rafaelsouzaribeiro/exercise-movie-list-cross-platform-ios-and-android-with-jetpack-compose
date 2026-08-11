@@ -31,14 +31,15 @@ fun MovieListPreview() {
 fun MovieListScreenPreview() {
     MoviesAppTheme {
         MoviesListScreen(
-            movieListState = MovieListViewModel.MoviesListStates.Success(
-                movieSections = listOf(
+            movieListState = listOf(MovieListViewModel.MoviesListStates.Success(
+                movieSections =
                     MovieSection(
                         sectionType = MovieSection.SectionType.POPULAR,
                         movies = List(10) {
                             Move1
                         }
                     )
+
                 )
             ),
             onMovieClick = {}

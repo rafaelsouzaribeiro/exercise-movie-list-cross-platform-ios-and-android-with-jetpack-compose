@@ -13,27 +13,65 @@ class MovieListViewModel(
     private val moviesRepository: MovieRepository
 ): ViewModel() {
     init {
-        getMovieSection()
+        getMoviePopular()
+        getMovieTopRated()
+        getMovieUpComing()
     }
-    private val _movieListState = MutableStateFlow<MoviesListStates>(MoviesListStates.Loading)
-    val movieListStates=_movieListState.asStateFlow()
+    private val _movieListStatePopular = MutableStateFlow<MoviesListStates>(MoviesListStates.Loading)
+    val movieListStatePopular=_movieListStatePopular.asStateFlow()
 
-    private fun getMovieSection(){
+    private val _movieListStateTopRated = MutableStateFlow<MoviesListStates>(MoviesListStates.Loading)
+    val movieListStateTopRated=_movieListStateTopRated.asStateFlow()
+
+    private val _movieListStateUpComing = MutableStateFlow<MoviesListStates>(MoviesListStates.Loading)
+    val movieListStateUpComing=_movieListStateUpComing.asStateFlow()
+
+    private fun getMoviePopular(){
        viewModelScope.launch {
            try {
-               val movieSections=moviesRepository.getMovieSection()
-               _movieListState.update {
+               val movieSections=moviesRepository.getMoviePopular()
+               _movieListStatePopular.update {
                      MoviesListStates.Success(movieSections)
                }
            }catch (e: Exception){
-               _movieListState.update {
+               _movieListStatePopular.update {
                      MoviesListStates.Error(e.message ?: "An unexpected error occurred")
                }
            }
        }
     }
+
+    private fun getMovieTopRated(){
+        viewModelScope.launch {
+            try {
+                val movieSections=moviesRepository.getMovieTopRated()
+                _movieListStateTopRated.update {
+                    MoviesListStates.Success(movieSections)
+                }
+            }catch (e: Exception){
+                _movieListStateTopRated.update {
+                    MoviesListStates.Error(e.message ?: "An unexpected error occurred")
+                }
+            }
+        }
+    }
+
+    private fun getMovieUpComing(){
+        viewModelScope.launch {
+            try {
+                val movieSections=moviesRepository.getMovieUPComing()
+                _movieListStateUpComing.update {
+                    MoviesListStates.Success(movieSections)
+                }
+            }catch (e: Exception){
+                _movieListStateUpComing.update {
+                    MoviesListStates.Error(e.message ?: "An unexpected error occurred")
+                }
+            }
+        }
+    }
     sealed interface MoviesListStates{
-        data class Success(val movieSections: List<MovieSection >): MoviesListStates
+        data class Success(val movieSections: MovieSection): MoviesListStates
         data object Loading: MoviesListStates
         data class Error(val message: String): MoviesListStates
     }

@@ -16,37 +16,51 @@ class MovieRepository(
     private val kortClient: KortClient
 ) {
 
-    suspend fun getMovieSection(): List<MovieSection>{
+    suspend fun getMovieUPComing(): MovieSection{
         return withContext(ioDispatcher){
 
-            val popularMoviesDeferred=async{ kortClient.getMovies("popular") }
-            val topRatedMoviesDeferred=async{ kortClient.getMovies("top_rated") }
             val upComingMoviesDeferred=async{ kortClient.getMovies("upcoming") }
 
-            val popularMovies=popularMoviesDeferred.await()
-            val topRatedMovies=topRatedMoviesDeferred.await()
             val upComingMovies=upComingMoviesDeferred.await()
 
-            listOf(
-                MovieSection(
-                    sectionType = MovieSection.SectionType.POPULAR,
-                    movies = popularMovies.results.map {
-                        it.toModel()
-                    }
-                ),
-                MovieSection(
-                    sectionType = MovieSection.SectionType.TOP_RATED,
-                    movies = topRatedMovies.results.map {
-                        it.toModel()
-                    }
-                ),
                 MovieSection(
                     sectionType = MovieSection.SectionType.UPCOMING,
                     movies = upComingMovies.results.map {
                         it.toModel()
                     }
                 )
-            )
+        }
+    }
+
+    suspend fun getMoviePopular(): MovieSection{
+        return withContext(ioDispatcher){
+
+            val popularMoviesDeferred=async{ kortClient.getMovies("popular") }
+
+            val popularMovies=popularMoviesDeferred.await()
+
+                MovieSection(
+                    sectionType = MovieSection.SectionType.POPULAR,
+                    movies = popularMovies.results.map {
+                        it.toModel()
+                    }
+                )
+        }
+    }
+
+
+    suspend fun getMovieTopRated(): MovieSection{
+        return withContext(ioDispatcher){
+
+            val topRatedMoviesDeferred=async{ kortClient.getMovies("top_rated") }
+            val topRatedMovies=topRatedMoviesDeferred.await()
+
+                MovieSection(
+                    sectionType = MovieSection.SectionType.TOP_RATED,
+                    movies = topRatedMovies.results.map {
+                        it.toModel()
+                    }
+                )
         }
     }
 

@@ -32,60 +32,77 @@ fun MoveisListRoutes(
     viewModel: MovieListViewModel= koinViewModel(),
     navegationToMovieDetail:(movieId:Int)-> Unit
 ){
-    val moviesListState by viewModel.movieListStates.collectAsStateWithLifecycle()
+    val moviesListStatePopular by viewModel.movieListStatePopular.collectAsStateWithLifecycle()
+    val moviesListStateTopRated by viewModel.movieListStateTopRated.collectAsStateWithLifecycle()
+    val moviesListStateUpComing by viewModel.movieListStateUpComing.collectAsStateWithLifecycle()
 
     MoviesListScreen(
-        movieListState = moviesListState,
+        movieListState = listOf(
+            moviesListStatePopular,
+            moviesListStateTopRated,
+            moviesListStateUpComing),
         onMovieClick =navegationToMovieDetail
     )
 }
 
 @Composable
 fun MoviesListScreen(
-    movieListState: MovieListViewModel.MoviesListStates,
-    onMovieClick: (movieId:Int) -> Unit,
+    movieListState: List<MovieListViewModel.MoviesListStates>,
+    onMovieClick: (movieId: Int) -> Unit,
 ) {
-    Scaffold{ paddingValues->
-        Box(
-            modifier = Modifier.padding(paddingValues).fillMaxSize()
-        ){
-            when(movieListState){
-                is MovieListViewModel.MoviesListStates.Loading -> {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                }
-                is MovieListViewModel.MoviesListStates.Success -> {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxWidth(),
-                        contentPadding = PaddingValues(vertical = 16.dp),
-                        verticalArrangement = Arrangement.spacedBy(32.dp)
-                    ) {
+    Scaffold { paddingValues ->
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            contentPadding = PaddingValues(vertical = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(32.dp)
+        ) {
+            items(movieListState) { state ->
+                when (state) {
+                    is MovieListViewModel.MoviesListStates.Loading -> {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CircularProgressIndicator()
+                        }
+                    }
 
-                        items(movieListState.movieSections) { moviesection ->
-                            val title = when (moviesection.sectionType) {
-                                MovieSection.SectionType.POPULAR -> stringResource(Res.string.movies_list_popular_movies)
-                                MovieSection.SectionType.TOP_RATED -> stringResource(Res.string.movies_list_top_rated_movies)
-                                MovieSection.SectionType.UPCOMING -> stringResource(Res.string.movies_list_upcoming_movies)
-                            }
-                            MoviesSection(
-                                title = title,
-                                movies = moviesection.movies,
-                                onMoviePosterClick = onMovieClick
-                            )
+                    is MovieListViewModel.MoviesListStates.Success -> {
+                        val title = when (state.movieSections.sectionType) {
+                            MovieSection.SectionType.POPULAR ->
+                                stringResource(Res.string.movies_list_popular_movies)
+
+                            MovieSection.SectionType.TOP_RATED ->
+                                stringResource(Res.string.movies_list_top_rated_movies)
+
+                            MovieSection.SectionType.UPCOMING ->
+                                stringResource(Res.string.movies_list_upcoming_movies)
                         }
 
+                        MoviesSection(
+                            title = title,
+                            movies = state.movieSections.movies,
+                            onMoviePosterClick = onMovieClick
+                        )
                     }
-                }
-                is MovieListViewModel.MoviesListStates.Error -> {
-                    Text(
-                        text = movieListState.message,
-                        modifier = Modifier.padding(16.dp)
-                            .align(Alignment.Center),
-                        textAlign = TextAlign.Center
-                    )
+
+                    is MovieListViewModel.MoviesListStates.Error -> {
+                        Text(
+                            text = state.message,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 }
             }
         }
     }
 }
+
+
