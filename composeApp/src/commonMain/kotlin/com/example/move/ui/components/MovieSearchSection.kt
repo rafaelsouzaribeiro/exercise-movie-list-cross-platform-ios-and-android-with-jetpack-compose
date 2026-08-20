@@ -34,7 +34,7 @@ fun MoviesSearchSection(
             contentPadding = PaddingValues(horizontal = 16.dp),
         ) {
             items(movies) { movie ->
-                MoviePoster(
+                MovieSearchPoster(
                     movie=movie
                     , onMoviePosterClick ={
                         onMoviePosterClick(movie.id)
