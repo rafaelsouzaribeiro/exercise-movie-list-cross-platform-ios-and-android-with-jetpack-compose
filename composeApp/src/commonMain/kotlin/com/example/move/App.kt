@@ -12,6 +12,7 @@ import com.example.move.di.viewModelModule
 import com.example.move.navigation.AppRoutes
 import com.example.move.ui.moviedetail.MovieDetailRoute
 import com.example.move.ui.movies.MoveisListRoutes
+import com.example.move.ui.search.MoveisSearchRoutes
 import com.example.move.ui.theme.MoviesAppTheme
 import org.koin.compose.KoinApplication
 import org.koin.dsl.koinConfiguration
@@ -34,6 +35,20 @@ fun App() {
                     MoveisListRoutes(
                         navegationToMovieDetail = { movieId ->
                             navController.navigate(AppRoutes.MovieDetails(movieId))
+                        },
+                        navegationToSearch = {
+                            navController.navigate(AppRoutes.MovieSearch)
+                        }
+                    )
+                }
+
+                composable<AppRoutes.MovieSearch> {
+                    MoveisSearchRoutes(
+                        navegationToMovieDetail = { movieId ->
+                            navController.navigate(AppRoutes.MovieDetails(movieId))
+                        },
+                        onNavegationIconClick = {
+                            navController.popBackStack()
                         }
                     )
                 }

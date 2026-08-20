@@ -3,6 +3,9 @@ package com.example.move.navigation
 import kotlinx.serialization.Serializable
 
 sealed interface AppRoutes{
+
+    @Serializable
+    data object MovieSearch: AppRoutes
     @Serializable
     data object MovieList: AppRoutes
     @Serializable

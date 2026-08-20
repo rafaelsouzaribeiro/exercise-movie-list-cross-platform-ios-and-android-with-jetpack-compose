@@ -4,4 +4,7 @@
     <string name="movies_list_upcoming_movies">Upcoming movies</string>
     <string name="movies_detail_watch_trailer">Watch trailer</string>
     <string name="movies_detail">Movie details</string>
+    <string name="movies_search_result">Search result</string>
+    <string name="movies_search_input">Find a movie</string>
+    <string name="movies_search">Nothing found</string>
 </resources>

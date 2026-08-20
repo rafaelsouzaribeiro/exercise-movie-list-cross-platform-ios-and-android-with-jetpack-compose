@@ -4,4 +4,7 @@
     <string name="movies_list_upcoming_movies">Próximos Lançamentos</string>
     <string name="movies_detail_watch_trailer">Assitir tralier</string>
     <string name="movies_detail">Detalhes do Filme</string>
+    <string name="movies_search_result">Resultado da busca</string>
+    <string name="movies_search_input">Buscar Filme</string>
+    <string name="movies_search">Nada encontrado..</string>
 </resources>

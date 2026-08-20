@@ -47,6 +47,7 @@ class MovieListViewModel(
                 stateFlow = _movieListStateUpComing,
                 fetch = { page -> moviesRepository.getMovieUPComing(page) }
             )
+
         }
     }
 

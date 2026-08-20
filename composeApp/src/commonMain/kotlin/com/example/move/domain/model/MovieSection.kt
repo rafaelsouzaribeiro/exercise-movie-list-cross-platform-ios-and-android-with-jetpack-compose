@@ -7,6 +7,18 @@ data class MovieSection(
     enum class SectionType {
         POPULAR,
         TOP_RATED,
-        UPCOMING
+        UPCOMING,
+
+
+    }
+}
+
+
+data class MovieSectionSearch(
+    val sectionType: SectionType,
+    val movies: List<Movie>
+){
+    enum class SectionType {
+        SEARCH
     }
 }

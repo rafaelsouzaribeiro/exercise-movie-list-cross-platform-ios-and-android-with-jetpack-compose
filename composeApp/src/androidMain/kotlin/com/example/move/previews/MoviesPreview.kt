@@ -47,7 +47,8 @@ fun MovieListScreenPreview() {
                 )
             ),
             onMovieClick = {},
-            onLoadMore ={}
+            onLoadMore ={},
+            onSearchClick = {}
         )
     }
 }

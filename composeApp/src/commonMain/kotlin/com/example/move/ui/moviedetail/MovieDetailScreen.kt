@@ -114,32 +114,6 @@ fun MovieDetialScreen(
     ) { paddingValues ->
         var youtubeVideoId by remember { mutableStateOf<String?>(null) }
 
-        /*youtubeVideoId?.let {key->
-            ModalBottomSheet(
-                onDismissRequest = { youtubeVideoId=null },
-                sheetState = rememberModalBottomSheetState(
-                    skipPartiallyExpanded = true
-                ),
-                modifier = Modifier.padding(
-                    top = paddingValues.calculateTopPadding()
-                )
-            ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    VideoPlayer(
-                        modifier = Modifier.fillMaxSize()
-                            .aspectRatio(16f / 9f)
-                            .clip(MaterialTheme.shapes.medium),
-                        url = "https://www.youtube.com/watch?v=$key",
-                        showControls = true,
-                        autoPlay = true
-                    )
-                }
-
-            }
-        }*/
         Box(
             modifier = Modifier.padding(paddingValues)
                 .fillMaxSize(),

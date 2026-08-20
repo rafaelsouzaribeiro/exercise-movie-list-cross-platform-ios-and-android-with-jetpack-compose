@@ -60,6 +60,12 @@ class KortClient {
         }.body()
     }
 
+    suspend fun getSearchMovies(query:String,page:Int): MovieListResponse {
+        return kortClient.get("$BASEURL/3/search/movie?query=$query&page=$page"){
+            addLanguageParameter()
+        }.body()
+    }
+
     suspend fun getMovieDetail(movieId:Int): MovieResponse {
         return kortClient.get("$BASEURL/3/movie/$movieId"){
             addLanguageParameter()
