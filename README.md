@@ -48,9 +48,19 @@ object Secrets {
 ## 🖼️ Exibição do projeto
 
 <p align="center">
-  <img src="doc/images/tmbdb.jpeg" alt="Exibição do projeto" width="320" />
+  <img src="doc/images/tmbdb.png" alt="Exibição do projeto" width="320" />
 </p>
+
+
+<p align="center">
+  <img src="doc/images/movie_pagination.png" alt="Exibição da paginação" width="320" />
+</p>
+
 
 <p align="center">
   <img src="doc/images/movie_detail.jpeg" alt="Exibição do projeto" width="320" />
+</p>
+
+<p align="center">
+  <img src="doc/images/movie_serach.png" alt="Exibição do projeto" width="320" />
 </p>
